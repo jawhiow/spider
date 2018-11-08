@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *  * modify: modify
  *  
  */
-public interface ArticleRepository extends JpaRepository<Integer, ArticleModel> {
+public interface ArticleRepository extends JpaRepository<ArticleModel, Integer> {
 }

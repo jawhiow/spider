@@ -13,65 +13,65 @@
             <h1 class="site-h1">设置列表页</h1>
         </div>
         <div class="site-text site-block">
-            <form class="layui-form" action="">
+            <form class="layui-form">
                 <div class="layui-form-item">
                     <label class="layui-form-label">项目名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" required="" lay-verify="required" placeholder="请输入项目名称" class="layui-input">
+                        <input type="text" name="xmmc" required="" lay-verify="required" placeholder="请输入项目名称" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属栏目ID</label>
                     <div class="layui-input-block">
-                        <input type="text" name="catid" required="" lay-verify="required" placeholder="请输入所属栏目ID" class="layui-input">
+                        <input type="text" name="lmid" required="" lay-verify="required" placeholder="请输入所属栏目ID" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">抓取截止时间</label>
                     <div class="layui-input-block">
-                        <input type="text" name="catid" required="" lay-verify="required" placeholder="请输入所属栏目ID" class="layui-input">
+                        <input type="text" name="jzsj" required="" lay-verify="required" placeholder="请输入所属栏目ID" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">目标站规则</label>
                     <div class="layui-input-block">
-                        <input type="text" name="catid" required="" lay-verify="required" placeholder="http://www.baidu.com/list/(*).html" class="layui-input">
+                        <input type="text" name="mbzgz" required="" lay-verify="required" placeholder="http://www.baidu.com/list/(*).html" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">抓取列表</label>
                     <div class="layui-input-block">
-                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入列表，多个用||连接" class="layui-input">
+                        <input type="text" name="lbjd" required="" lay-verify="required" placeholder="请输入列表，多个用||连接" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">抓取标题节点</label>
                     <div class="layui-input-block">
-                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
+                        <input type="text" name="btjd" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">抓取内容节点</label>
                     <div class="layui-input-block">
-                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
+                        <input type="text" name="nrjd" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">抓取时间节点</label>
                     <div class="layui-input-block">
-                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
+                        <input type="text" name="sjjd" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">来源</label>
                     <div class="layui-input-block">
-                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入" class="layui-input">
+                        <input type="text" name="ly" required="" lay-verify="required" placeholder="请输入" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">来源网址</label>
                     <div class="layui-input-block">
-                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入网址" class="layui-input">
+                        <input type="text" name="lywz" required="" lay-verify="required" placeholder="请输入网址" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -87,9 +87,22 @@
 <script>
     layui.use(['layer', 'form'], function() {
         var layer = layui.layer
-            , form = layui.form;
+            , form = layui.form
+            , $ = layui.$;
 
-        form.render();
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            $.ajax({
+                url : "/project/add",
+                type : "post",
+                data: data.field,
+                success : function () {
+                    layer.msg("提交成功");
+                }
+
+            });
+            return false;
+        });
     });
 </script>
 </body>

@@ -20,9 +20,9 @@ public class ArticleModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer  id ;
     @Column(name = "project_id")
-    private String  projectId;
+    private Integer  projectId;
     @Column(name = "column_id")
-    private String  columnId;
+    private Integer  columnId;
     @Column(name = "project_name")
     private String  projectName;
     @Column(name = "article_name")

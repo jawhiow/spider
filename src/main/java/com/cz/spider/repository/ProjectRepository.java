@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *  * modify: modify
  *  
  */
-public interface ProjectRepository extends JpaRepository<Integer, ProjectModel> {
+public interface ProjectRepository extends JpaRepository<ProjectModel, Integer> {
     
 }
