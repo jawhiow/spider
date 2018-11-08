@@ -2,6 +2,7 @@ package com.cz.spider.repository;
 
 import com.cz.spider.model.ProjectModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *  * description: description
@@ -11,5 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *  
  */
 public interface ProjectRepository extends JpaRepository<ProjectModel, Integer> {
-    
+
+    ProjectModel findFirstByXmmc(String xmmc);
 }

@@ -1,11 +1,16 @@
-package com.cz.spider.controller;
+package com.cz.spider.crawler;
 
-import com.cz.spider.crawler.MyCrawler;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
+import lombok.Data;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  * description: description
@@ -14,8 +19,24 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
  *  * modify: modify
  *  
  */
-public class Controller {
-    public static void main(String[] args) throws Exception {
+@Data
+public class MyCommandLine implements CommandLineRunner {
+
+    private List<String> links = new ArrayList<>();
+
+    private String contentSelector;
+    private String titleSelector;
+    private String timeSelector;
+
+    public MyCommandLine(List<String> links, String contentSelector, String titleSelector, String timeSelector) {
+        this.links = links;
+        this.contentSelector = contentSelector;
+        this.titleSelector = titleSelector;
+        this.timeSelector = timeSelector;
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
         //定义爬虫存储的位置
         String crawStorageFoler="d:/crawler";
         //定义爬虫线程7个
@@ -34,12 +55,15 @@ public class Controller {
         //实例化爬虫控制器
         CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
         //配置爬取种子页面，就是规定从哪里开始爬，可以配置多个种子页面
-        controller.addSeed("http://www.hfcz.gov.cn/544/hfczdtn/index.html");
-        controller.addSeed("http://www.hfcz.gov.cn/544/hfczdtn/index_1.html");
-        controller.addSeed("http://www.hfcz.gov.cn/544/hfczdtn/index_2.html");
+        for (String link : links) {
+            controller.addSeed(link);
+        }
+        // controller.addSeed("http://www.hfcz.gov.cn/544/hfczdtn/index.html");
 
 
         //启动爬虫，爬虫从此刻开始执行爬虫任务
-        controller.start(MyCrawler.class, numberOfCrawlers);
+        // controller.start(MyCrawler.class, numberOfCrawlers);
+        MyCrawlerFactory factory = new MyCrawlerFactory(contentSelector, titleSelector, timeSelector);
+        controller.startNonBlocking(factory, numberOfCrawlers);
     }
 }

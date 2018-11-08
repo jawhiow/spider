@@ -17,14 +17,26 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
  * 自定义爬虫类myCrawler需要继承WebCrawler,决定哪些url被爬取以及处理爬的页面信息
  */
 public class MyCrawler extends WebCrawler {
+
+    private String contentSelector;
+    private String titleSelector;
+    private String timeSelector;
+
+    public static List<Map<String, String>> resultList = new ArrayList<>();
+
+    public MyCrawler(String contentSelector, String titleSelector, String timeSelector) {
+        this.contentSelector = contentSelector;
+        this.titleSelector = titleSelector;
+        this.timeSelector = timeSelector;
+        resultList.clear();
+    }
 
     /**
      * 正则匹配指定的后缀文件
@@ -74,12 +86,31 @@ public class MyCrawler extends WebCrawler {
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
             Document document = Jsoup.parse(html);
-            Element first = document.select(".doccontent").first();
+            Element contentElement = document.select(this.contentSelector).first();
+            Element timeElement = document.select(this.timeSelector).first();
+            Element titleElement = document.select(this.titleSelector).first();
 
-            if (Objects.nonNull(first)) {
-                System.out.println("=========文章内容=========");
-                System.out.println(first.html());
+            Map<String, String> map = new HashMap<>();
+
+            if (Objects.nonNull(timeElement)) {
+                System.out.println("=========时间内容=========");
+                System.out.println(timeElement.html());
+                map.put("time", timeElement.html());
             }
+
+            if (Objects.nonNull(contentElement)) {
+                System.out.println("=========文章内容=========");
+                System.out.println(contentElement.html());
+                map.put("content", contentElement.html());
+            }
+
+            if (Objects.nonNull(titleElement)) {
+                System.out.println("=========标题内容=========");
+                System.out.println(titleElement.html());
+                map.put("title", titleElement.html());
+            }
+
+            resultList.add(map);
 
 
             System.out.println("纯文本长度: " + text.length());
