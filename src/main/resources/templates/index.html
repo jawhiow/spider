@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CDSS-DEMO</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<body>
+<style>.w1200{width: 1200px;margin: 0 auto; border: 1px solid #d8d8d8;min-height: 300px;padding: 25px;}</style>
+<div id="DATA-APP">
+    <div class="w1200">
+        <div class="site-title" style="padding-bottom: 20px;">
+            <h1 class="site-h1">设置列表页</h1>
+        </div>
+        <div class="site-text site-block">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">项目名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required="" lay-verify="required" placeholder="请输入项目名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属栏目ID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="catid" required="" lay-verify="required" placeholder="请输入所属栏目ID" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">抓取截止时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="catid" required="" lay-verify="required" placeholder="请输入所属栏目ID" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">目标站规则</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="catid" required="" lay-verify="required" placeholder="http://www.baidu.com/list/(*).html" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">抓取列表节点</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">抓取标题节点</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">抓取内容节点</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">抓取时间节点</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入开始选择器" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源网址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="start" required="" lay-verify="required" placeholder="请输入网址" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" type="button" lay-filter="formDemo">立即提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="layui/layui.js" type="text/javascript"></script>
+<script>
+    layui.use(['layer', 'form'], function() {
+        var layer = layui.layer
+            , form = layui.form;
+
+        form.render();
+    });
+</script>
+</body>
+</html>

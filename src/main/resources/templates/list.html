@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CDSS-DEMO</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<body>
+<style>.w1200{width: 1200px;margin: 0 auto; border: 1px solid #d8d8d8;min-height: 300px;padding: 25px;}</style>
+<div id="DATA-APP">
+    <div class="w1200">
+        <div class="site-title" style="padding-bottom: 20px;">
+            <h1 class="site-h1">抓取列表页</h1>
+        </div>
+        <div class="site-text site-block">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>项目名称</th>
+                    <th>所属栏目</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>合肥市财经</td>
+                    <td>34</td>
+                    <td>
+                        <button class="layui-btn layui-btn-sm">开始抓取</button>
+                        <button class="layui-btn layui-btn-sm">查看结果</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="layui/layui.js" type="text/javascript"></script>
+<script>
+    layui.use(['layer', 'form'], function() {
+        var layer = layui.layer
+            , form = layui.form;
+
+        form.render();
+    });
+</script>
+</body>
+</html>
