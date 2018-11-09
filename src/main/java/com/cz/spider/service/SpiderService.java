@@ -8,11 +8,9 @@ import com.cz.spider.repository.ArticleRepository;
 import com.cz.spider.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,6 +33,9 @@ public class SpiderService {
 
     public void run(String xmmc) throws Exception {
         ProjectModel projectModel = projectRepository.findFirstByXmmc(xmmc);
+        if (!StringUtils.isEmpty(projectModel.getMbzgz()) && !Objects.equals("*", projectModel.getMbzgz())) {
+            MyCrawler.MATCHER =  Pattern.compile(projectModel.getMbzgz());
+        }
         String contentSelector = projectModel.getNrjd();
         String titleSelector = projectModel.getBtjd();
         String timeSelector = projectModel.getSjjd();

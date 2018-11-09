@@ -48,7 +48,7 @@ public class MyCrawler extends WebCrawler {
             + "|tiff?|mid|mp2|mp3|mp4" + "|wav|avi|mov|mpeg|ram|m4v|pdf"
             + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
-    private final static Pattern MATCHER = Pattern.compile("^.*(\\.(html))$");
+    public static Pattern MATCHER = Pattern.compile("^.*(\\.(html))$");
 
 
     /**
