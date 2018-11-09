@@ -71,10 +71,6 @@ public class MyCommandLine implements CommandLineRunner {
         MyCrawlerFactory factory = new MyCrawlerFactory(contentSelector, titleSelector, timeSelector);
         controller.startNonBlocking(factory, numberOfCrawlers);
 
-        if (controller.isFinished()) {
-
-        }
-
          Thread.sleep(30 * 1000);
 //        while (true) {
 //            int i = Thread.activeCount();

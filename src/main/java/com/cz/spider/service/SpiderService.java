@@ -45,7 +45,7 @@ public class SpiderService {
         List<Object> collect = commandLine.getMapList().stream().filter(t -> t instanceof List)
                 .filter(t -> ((List) t).size() > 0)
                 .collect(Collectors.toList());
-        for (Object object : commandLine.getMapList()) {
+        for (Object object : collect) {
 
             if (!(object instanceof List)) continue;
 
@@ -75,10 +75,11 @@ public class SpiderService {
     }
 
     private String handleTime(String str) {
-        Pattern pattern = Pattern.compile("^.*([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]|[0-9][1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))).*$");
+        str = str.replaceAll("\n", "");
+        Pattern pattern = Pattern.compile("(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))");
         Matcher matcher = pattern.matcher(str);
-        if (matcher.matches()) {
-            return matcher.group(1) + "-" + matcher.group(2);
+        if (matcher.find()) {
+            return matcher.group(1);
         }
 
         return str;
