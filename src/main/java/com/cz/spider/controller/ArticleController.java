@@ -1,8 +1,8 @@
 package com.cz.spider.controller;
 
 import com.cz.spider.model.ProjectModel;
+import com.cz.spider.repository.ArticleRepository;
 import com.cz.spider.repository.ProjectRepository;
-import com.cz.spider.service.SpiderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,22 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
  *  
  */
 @RestController
-@RequestMapping(value = "/spider")
-public class SpiderController {
+@RequestMapping(value = "/article")
+public class ArticleController {
 
     @Autowired
-    private SpiderService spiderService;
+    private ArticleRepository articleRepository;
 
-
-    @RequestMapping(value = "/run", method = RequestMethod.GET)
-    public String run(String xmmc, Integer num) {
-        try {
-            spiderService.run(xmmc, num);
-            return "success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
-        }
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String get() {
+        System.out.println("====");
+        return "";
     }
 
 

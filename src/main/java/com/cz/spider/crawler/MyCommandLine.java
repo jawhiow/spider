@@ -49,7 +49,7 @@ public class MyCommandLine implements CommandLineRunner {
         // 定义最大爬取深度
         // config.setMaxDepthOfCrawling(maxDepthOfCrawling);
         // 定义最大爬取数量
-        // config.setMaxPagesToFetch(30);
+         config.setMaxPagesToFetch(Integer.parseInt(args[0]));
         //实例化页面获取器
         PageFetcher pageFetcher = new PageFetcher(config);
         //实例化爬虫机器人配置,比如可以设置user-agent
@@ -71,7 +71,7 @@ public class MyCommandLine implements CommandLineRunner {
         MyCrawlerFactory factory = new MyCrawlerFactory(contentSelector, titleSelector, timeSelector);
         controller.startNonBlocking(factory, numberOfCrawlers);
 
-         Thread.sleep(30 * 1000);
+         Thread.sleep(10 * 1000);
 //        while (true) {
 //            int i = Thread.activeCount();
 //            System.out.println(i);

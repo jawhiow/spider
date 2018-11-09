@@ -31,7 +31,7 @@ public class SpiderService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public void run(String xmmc) throws Exception {
+    public void run(String xmmc, Integer num) throws Exception {
         ProjectModel projectModel = projectRepository.findFirstByXmmc(xmmc);
         if (!StringUtils.isEmpty(projectModel.getMbzgz()) && !Objects.equals("*", projectModel.getMbzgz())) {
             MyCrawler.MATCHER =  Pattern.compile(projectModel.getMbzgz());
@@ -41,7 +41,7 @@ public class SpiderService {
         String timeSelector = projectModel.getSjjd();
         String lbjd = projectModel.getLbjd();
         MyCommandLine commandLine = new MyCommandLine(Arrays.asList(lbjd.split("&&")), contentSelector, titleSelector, timeSelector);
-        commandLine.run();
+        commandLine.run(num.toString());
         List<ArticleModel> resultList = new ArrayList<>();
         List<Object> collect = commandLine.getMapList().stream().filter(t -> t instanceof List)
                 .filter(t -> ((List) t).size() > 0)

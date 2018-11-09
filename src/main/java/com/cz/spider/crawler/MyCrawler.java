@@ -59,7 +59,8 @@ public class MyCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
         //小写url
-        String href = url.getURL().toLowerCase();
+        // .toLowerCase()
+        String href = url.getURL();
         // System.out.println("当前访问为：" + url.getURL());
         //正则匹配，过滤掉我们不需要的后缀文件
         return MATCHER.matcher(href).matches()//匹配过滤掉不需要的后缀文件
