@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  *  * description: description
@@ -41,17 +42,33 @@ public class SpiderService {
         MyCommandLine commandLine = new MyCommandLine(Arrays.asList(lbjd.split("&&")), contentSelector, titleSelector, timeSelector);
         commandLine.run();
         List<ArticleModel> resultList = new ArrayList<>();
-        for (Map<String, String> map : MyCrawler.resultList) {
-            if (map.size() == 0) continue;
-            ArticleModel articleModel = new ArticleModel();
-            articleModel.setProjectName(projectModel.getXmmc());
-            articleModel.setArticleName(map.get("title"));
-            articleModel.setArticleCreateTime(handleTime(map.get("time")));
-            articleModel.setColumnId(projectModel.getLmid());
-            articleModel.setContent(map.get("content"));
-            articleModel.setTitle(map.get("title"));
-            articleModel.setProjectId(projectModel.getId());
-            resultList.add(articleModel);
+        List<Object> collect = commandLine.getMapList().stream().filter(t -> t instanceof List)
+                .filter(t -> ((List) t).size() > 0)
+                .collect(Collectors.toList());
+        for (Object object : commandLine.getMapList()) {
+
+            if (!(object instanceof List)) continue;
+
+            List list = (List) object;
+
+            for (Object o : list) {
+
+                if (!(o instanceof Map)) continue;
+                Map map = (Map) o;
+
+                if (map.size() == 0) continue;
+                ArticleModel articleModel = new ArticleModel();
+                articleModel.setProjectName(projectModel.getXmmc());
+                articleModel.setArticleName(map.get("title").toString());
+                articleModel.setArticleCreateTime(handleTime(map.get("time").toString()));
+                articleModel.setColumnId(projectModel.getLmid());
+                articleModel.setContent(map.get("content").toString());
+                articleModel.setTitle(map.get("title").toString());
+                articleModel.setProjectId(projectModel.getId());
+                resultList.add(articleModel);
+            }
+
+
         }
 
         if (resultList.size() > 0) articleRepository.saveAll(resultList);

@@ -29,13 +29,16 @@ public class MyCrawler extends WebCrawler {
     private String titleSelector;
     private String timeSelector;
 
-    public static List<Map<String, String>> resultList = new ArrayList<>();
+    public List<Map<String, String>> resultList;
+//    public Map<String, String> map;
+
 
     public MyCrawler(String contentSelector, String titleSelector, String timeSelector) {
         this.contentSelector = contentSelector;
         this.titleSelector = titleSelector;
         this.timeSelector = timeSelector;
-        resultList.clear();
+        this.resultList = new ArrayList<>();
+//        map = new HashMap<>();
     }
 
     /**
@@ -117,6 +120,11 @@ public class MyCrawler extends WebCrawler {
             System.out.println("html长度: " + html.length());
             System.out.println("输出链接个数: " + links.size());
         }
+    }
+
+    @Override
+    public Object getMyLocalData() {
+        return resultList;
     }
 }
 

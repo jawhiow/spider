@@ -7,9 +7,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import lombok.Data;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +20,9 @@ import java.util.List;
 @Data
 public class MyCommandLine implements CommandLineRunner {
 
-    private List<String> links = new ArrayList<>();
+    private List<String> links;
+
+    private List<Object> mapList;
 
     private String contentSelector;
     private String titleSelector;
@@ -37,14 +37,19 @@ public class MyCommandLine implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        int cnt = Thread.activeCount();
         //定义爬虫存储的位置
         String crawStorageFoler="d:/crawler";
         //定义爬虫线程7个
-        int numberOfCrawlers = 1;
+        int numberOfCrawlers = 7;
         //定义爬虫配置
         CrawlConfig config = new CrawlConfig();
         //设置爬虫文件存储位置
         config.setCrawlStorageFolder(crawStorageFoler);
+        // 定义最大爬取深度
+        // config.setMaxDepthOfCrawling(maxDepthOfCrawling);
+        // 定义最大爬取数量
+        // config.setMaxPagesToFetch(30);
         //实例化页面获取器
         PageFetcher pageFetcher = new PageFetcher(config);
         //实例化爬虫机器人配置,比如可以设置user-agent
@@ -65,5 +70,21 @@ public class MyCommandLine implements CommandLineRunner {
         // controller.start(MyCrawler.class, numberOfCrawlers);
         MyCrawlerFactory factory = new MyCrawlerFactory(contentSelector, titleSelector, timeSelector);
         controller.startNonBlocking(factory, numberOfCrawlers);
+
+        if (controller.isFinished()) {
+
+        }
+
+         Thread.sleep(30 * 1000);
+//        while (true) {
+//            int i = Thread.activeCount();
+//            System.out.println(i);
+//            if (i - cnt <= 0) break;
+//        }
+
+        controller.shutdown();
+        controller.waitUntilFinish();
+        mapList = controller.getCrawlersLocalData();
+
     }
 }
