@@ -1,8 +1,8 @@
-package com.cz.spider.repository;
+package com.cz.spider.repository.primary;
 
-import com.cz.spider.model.ProjectModel;
+import com.cz.spider.model.primary.ProjectModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *  * description: description
@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
  *  * modify: modify
  *  
  */
+@Repository
 public interface ProjectRepository extends JpaRepository<ProjectModel, Integer> {
 
     ProjectModel findFirstByXmmc(String xmmc);

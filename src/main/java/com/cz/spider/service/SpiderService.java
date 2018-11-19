@@ -2,10 +2,10 @@ package com.cz.spider.service;
 
 import com.cz.spider.crawler.MyCommandLine;
 import com.cz.spider.crawler.MyCrawler;
-import com.cz.spider.model.ArticleModel;
-import com.cz.spider.model.ProjectModel;
-import com.cz.spider.repository.ArticleRepository;
-import com.cz.spider.repository.ProjectRepository;
+import com.cz.spider.model.primary.ArticleModel;
+import com.cz.spider.model.primary.ProjectModel;
+import com.cz.spider.repository.primary.ArticleRepository;
+import com.cz.spider.repository.primary.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

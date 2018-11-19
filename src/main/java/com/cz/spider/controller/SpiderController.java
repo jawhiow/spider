@@ -1,7 +1,5 @@
 package com.cz.spider.controller;
 
-import com.cz.spider.model.ProjectModel;
-import com.cz.spider.repository.ProjectRepository;
 import com.cz.spider.service.SpiderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
