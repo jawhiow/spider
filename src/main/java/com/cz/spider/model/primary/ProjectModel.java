@@ -1,4 +1,4 @@
-package com.cz.spider.model;
+package com.cz.spider.model.primary;
 
 import lombok.Data;
 
