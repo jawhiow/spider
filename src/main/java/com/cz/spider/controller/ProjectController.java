@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  *  * description: description
  *  * author: jiangtao
@@ -29,6 +31,17 @@ public class ProjectController {
         } catch (Exception e){
             e.printStackTrace();
             return "error";
+        }
+
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public List<ProjectModel> list() {
+        try {
+            return projectRepository.findAll();
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
 
     }
