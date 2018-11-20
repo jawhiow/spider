@@ -74,7 +74,9 @@ public class V9Service {
         time = time.substring(0, time.length() - 3);
         v9News.setInputtime(Integer.parseInt(time));
         v9News.setUpdatetime(Integer.parseInt(time));
-        v9News.setPimg("");
+//        v9News.setPimg("");
+        v9News.setCopyfromurl("");
+        v9News.setZuozhe("");
 
         V9News newV9News = v9NewsRepository.saveAndFlush(v9News);
         String url = "/index.php?m=content&c=index&a=show&catid="+ v9News.getCatid() +"&id=" + newV9News.getId();

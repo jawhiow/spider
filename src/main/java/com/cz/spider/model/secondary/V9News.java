@@ -34,6 +34,8 @@ public class V9News {
     private String username;
     private Integer inputtime;
     private Integer updatetime;
-    private String pimg;
+//    private String pimg;
+    private String zuozhe;
+    private String copyfromurl;
 
 }

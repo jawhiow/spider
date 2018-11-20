@@ -28,7 +28,6 @@ public class V9NewsData {
     private Integer voteid;
     private Integer allow_comment;
     private String copyfrom;
-    private String duopic;
 
     public V9NewsData() {
         this.readpoint = 0;
@@ -41,6 +40,5 @@ public class V9NewsData {
         this.voteid = 0;
         this.allow_comment = 1;
         this.copyfrom = "";
-        this.duopic = "";
     }
 }
