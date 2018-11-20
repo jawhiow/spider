@@ -18,17 +18,17 @@ public class V9NewsData {
     @Id
     private Integer id;
     private String content;
-    private Integer readpoint;
-    private String groupids_view;
-    private Integer paginationtype;
-    private Integer maxcharperpage;
-    private String template;
-    private Integer paytype;
-    private String relation;
-    private Integer voteid;
-    private Integer allow_comment;
-    private String copyfrom;
-    private String duopic;
+    private Integer readpoint = 0;
+    private String groupids_view = "";
+    private Integer paginationtype = 0;
+    private Integer maxcharperpage = 0;
+    private String template = "";
+    private Integer paytype = 0;
+    private String relation = "";
+    private Integer voteid = 0;
+    private Integer allow_comment = 1;
+    private String copyfrom = "";
+    private String duopic = "";
 
 
 }
