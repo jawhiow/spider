@@ -34,7 +34,6 @@ public class MyCrawler extends WebCrawler {
     private ProjectModel projectModel;
 
     public List<Map<String, String>> resultList;
-//    public Map<String, String> map;
 
 
     public MyCrawler(String contentSelector, String titleSelector, String timeSelector, ProjectModel projectModel) {
@@ -43,7 +42,6 @@ public class MyCrawler extends WebCrawler {
         this.timeSelector = timeSelector;
         this.projectModel = projectModel;
         this.resultList = new ArrayList<>();
-//        map = new HashMap<>();
     }
 
     /**
@@ -135,9 +133,17 @@ public class MyCrawler extends WebCrawler {
 
     @Override
     public void onBeforeExit() {
-        System.out.println("=============当前线程爬取完毕准备入库================");
+        System.out.println("=============当前线程："+ this.getMyId() +"爬取完毕准备入库================");
         SpiderService spiderService = SpringUtil.getBean(SpiderService.class);
         spiderService.save(Collections.singletonList(resultList), projectModel);
     }
+
+    @Override
+    public void onStart() {
+        System.out.println("当前项目"+ projectModel.getXmmc() +"准备爬取，" + "爬虫项目ID为：" + this.myId + "，当前线程为" + getThread());
+        System.out.println(this);
+    }
+
+
 }
 

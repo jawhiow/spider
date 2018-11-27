@@ -6,6 +6,7 @@ import com.cz.spider.model.primary.ArticleModel;
 import com.cz.spider.model.primary.ProjectModel;
 import com.cz.spider.repository.primary.ArticleRepository;
 import com.cz.spider.repository.primary.ProjectRepository;
+import edu.uci.ics.crawler4j.crawler.CrawlController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -31,7 +32,7 @@ public class SpiderService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public void run(String xmmc, Integer num) throws Exception {
+    private MyCommandLine run(String xmmc, Integer num) throws Exception {
         ProjectModel projectModel = projectRepository.findFirstByXmmc(xmmc);
         if (!StringUtils.isEmpty(projectModel.getMbzgz()) && !Objects.equals("*", projectModel.getMbzgz())) {
             MyCrawler.MATCHER =  Pattern.compile(projectModel.getMbzgz());
@@ -42,40 +43,7 @@ public class SpiderService {
         String lbjd = projectModel.getLbjd();
         MyCommandLine commandLine = new MyCommandLine(Arrays.asList(lbjd.split("&&")), contentSelector, titleSelector, timeSelector, projectModel);
         commandLine.run(num.toString());
-
-        /*List<ArticleModel> resultList = new ArrayList<>();
-        List<Object> collect = commandLine.getMapList().stream().filter(t -> t instanceof List)
-                .filter(t -> ((List) t).size() > 0)
-                .collect(Collectors.toList());
-        for (Object object : collect) {
-
-            if (!(object instanceof List)) continue;
-
-            List list = (List) object;
-
-            for (Object o : list) {
-
-                if (!(o instanceof Map)) continue;
-                Map map = (Map) o;
-
-                if (map.size() == 0) continue;
-                ArticleModel articleModel = new ArticleModel();
-                articleModel.setProjectName(projectModel.getXmmc());
-                articleModel.setArticleName(map.get("title").toString());
-                articleModel.setArticleCreateTime(handleTime(map.get("time").toString()));
-                articleModel.setColumnId(projectModel.getLmid());
-                articleModel.setContent(map.get("content").toString());
-                articleModel.setTitle(map.get("title").toString());
-                articleModel.setProjectId(projectModel.getId());
-                resultList.add(articleModel);
-            }
-
-
-        }
-
-        resultList = resultList.stream().filter(this::filter).collect(Collectors.toList());
-
-        if (resultList.size() > 0) articleRepository.saveAll(resultList);*/
+        return commandLine;
     }
 
     private String handleTime(String str) {
@@ -100,8 +68,29 @@ public class SpiderService {
         if (all.size() == 0) return;
 
         for (ProjectModel projectModel : all) {
-            run(projectModel.getXmmc(), num);
+            runByXmmc(projectModel.getXmmc(), num);
         }
+    }
+
+    public boolean runByXmmc(String xmmc, Integer num){
+        try {
+            System.out.println(xmmc + "开始....");
+            MyCommandLine myCommandLine = run(xmmc, num);
+            while (true) {
+                CrawlController controller = myCommandLine.getControllerMap().get(xmmc);
+                if (controller.isFinished()) {
+                    break;
+                } else {
+                    Thread.sleep(10 * 1000);
+                }
+            }
+            System.out.println(xmmc + "结束....");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
 

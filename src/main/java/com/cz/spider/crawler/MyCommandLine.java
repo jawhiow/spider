@@ -9,7 +9,9 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import lombok.Data;
 import org.springframework.boot.CommandLineRunner;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *  * description: description
@@ -29,6 +31,7 @@ public class MyCommandLine implements CommandLineRunner {
     private String titleSelector;
     private String timeSelector;
     private ProjectModel projectModel;
+    private Map<String, CrawlController> controllerMap;
 
     public MyCommandLine(List<String> links, String contentSelector, String titleSelector, String timeSelector, ProjectModel projectModel) {
         this.links = links;
@@ -36,6 +39,7 @@ public class MyCommandLine implements CommandLineRunner {
         this.titleSelector = titleSelector;
         this.timeSelector = timeSelector;
         this.projectModel = projectModel;
+        controllerMap = new HashMap<>();
     }
 
     @Override
@@ -73,12 +77,15 @@ public class MyCommandLine implements CommandLineRunner {
         // controller.start(MyCrawler.class, numberOfCrawlers);
         MyCrawlerFactory factory = new MyCrawlerFactory(contentSelector, titleSelector, timeSelector, projectModel);
         controller.startNonBlocking(factory, numberOfCrawlers);
+        this.getControllerMap().put(projectModel.getXmmc(), controller);
 
-         //Thread.sleep(30 * 1000);
-
+//         Thread.sleep(60 * 1000);
+//
+//         if (controller.isFinished()) {
+//             System.out.println("结束了。。。");
+//         }
 //        controller.shutdown();
 //        controller.waitUntilFinish();
 //        mapList = controller.getCrawlersLocalData();
-
     }
 }

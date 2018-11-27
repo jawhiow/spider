@@ -24,7 +24,7 @@ public class SpiderController {
     @RequestMapping(value = "/run", method = RequestMethod.GET)
     public String run(String xmmc, Integer num) {
         try {
-            spiderService.run(xmmc, num);
+            spiderService.runByXmmc(xmmc, num);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
