@@ -73,11 +73,12 @@ public class SpiderService {
     }
 
     public boolean runByXmmc(String xmmc, Integer num){
+        CrawlController controller = null;
         try {
             System.out.println(xmmc + "开始....");
             MyCommandLine myCommandLine = run(xmmc, num);
             while (true) {
-                CrawlController controller = myCommandLine.getControllerMap().get(xmmc);
+                controller = myCommandLine.getControllerMap().get(xmmc);
                 if (controller.isFinished()) {
                     break;
                 } else {
@@ -87,6 +88,10 @@ public class SpiderService {
             System.out.println(xmmc + "结束....");
         } catch (Exception e) {
             e.printStackTrace();
+            if (Objects.nonNull(controller)) {
+                controller.shutdown();
+                controller.waitUntilFinish();
+            }
             return false;
         }
 
@@ -95,39 +100,52 @@ public class SpiderService {
 
 
     public void save(List<Object> collect, ProjectModel projectModel) {
-        List<ArticleModel> resultList = new ArrayList<>();
-        for (Object object : collect) {
+        try {
+            List<ArticleModel> resultList = new ArrayList<>();
+            for (Object object : collect) {
 
-            if (!(object instanceof List)) continue;
+                if (!(object instanceof List)) continue;
 
-            List list = (List) object;
+                List list = (List) object;
 
-            for (Object o : list) {
+                for (Object o : list) {
 
-                if (!(o instanceof Map)) continue;
-                Map map = (Map) o;
+                    if (!(o instanceof Map)) continue;
+                    Map map = (Map) o;
 
-                if (map.size() == 0) continue;
-                ArticleModel articleModel = new ArticleModel();
-                articleModel.setProjectName(projectModel.getXmmc());
-                if (Objects.nonNull(map.get("title")))
-                    articleModel.setArticleName(map.get("title").toString());
-                if (Objects.nonNull(map.get("time")))
-                    articleModel.setArticleCreateTime(handleTime(map.get("time").toString()));
-                articleModel.setColumnId(projectModel.getLmid());
-                if (Objects.nonNull(map.get("content")))
-                    articleModel.setContent(map.get("content").toString());
-                if (Objects.nonNull(map.get("title")))
-                    articleModel.setTitle(map.get("title").toString());
-                articleModel.setProjectId(projectModel.getId());
-                resultList.add(articleModel);
+                    if (map.size() == 0) continue;
+                    ArticleModel articleModel = new ArticleModel();
+                    articleModel.setProjectName(projectModel.getXmmc());
+                    if (Objects.nonNull(map.get("title")))
+                        articleModel.setArticleName(map.get("title").toString());
+                    else
+                        articleModel.setArticleName("");
+                    if (Objects.nonNull(map.get("time")))
+                        articleModel.setArticleCreateTime(handleTime(map.get("time").toString()));
+                    else
+                        articleModel.setArticleCreateTime("");
+                    articleModel.setColumnId(projectModel.getLmid());
+                    if (Objects.nonNull(map.get("content")))
+                        articleModel.setContent(map.get("content").toString());
+                    else
+                        articleModel.setContent("");
+                    if (Objects.nonNull(map.get("title")))
+                        articleModel.setTitle(map.get("title").toString());
+                    else
+                        articleModel.setTitle("");
+                    articleModel.setProjectId(projectModel.getId());
+                    resultList.add(articleModel);
+                }
+
+
             }
 
+            resultList = resultList.stream().filter(this::filter).collect(Collectors.toList());
 
+            if (resultList.size() > 0) articleRepository.saveAll(resultList);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        resultList = resultList.stream().filter(this::filter).collect(Collectors.toList());
-
-        if (resultList.size() > 0) articleRepository.saveAll(resultList);
     }
 }
