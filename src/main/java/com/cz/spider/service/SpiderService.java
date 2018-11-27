@@ -110,11 +110,15 @@ public class SpiderService {
                 if (map.size() == 0) continue;
                 ArticleModel articleModel = new ArticleModel();
                 articleModel.setProjectName(projectModel.getXmmc());
-                articleModel.setArticleName(map.get("title").toString());
-                articleModel.setArticleCreateTime(handleTime(map.get("time").toString()));
+                if (Objects.nonNull(map.get("title")))
+                    articleModel.setArticleName(map.get("title").toString());
+                if (Objects.nonNull(map.get("time")))
+                    articleModel.setArticleCreateTime(handleTime(map.get("time").toString()));
                 articleModel.setColumnId(projectModel.getLmid());
-                articleModel.setContent(map.get("content").toString());
-                articleModel.setTitle(map.get("title").toString());
+                if (Objects.nonNull(map.get("content")))
+                    articleModel.setContent(map.get("content").toString());
+                if (Objects.nonNull(map.get("title")))
+                    articleModel.setTitle(map.get("title").toString());
                 articleModel.setProjectId(projectModel.getId());
                 resultList.add(articleModel);
             }
