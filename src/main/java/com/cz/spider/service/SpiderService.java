@@ -40,9 +40,10 @@ public class SpiderService {
         String titleSelector = projectModel.getBtjd();
         String timeSelector = projectModel.getSjjd();
         String lbjd = projectModel.getLbjd();
-        MyCommandLine commandLine = new MyCommandLine(Arrays.asList(lbjd.split("&&")), contentSelector, titleSelector, timeSelector);
+        MyCommandLine commandLine = new MyCommandLine(Arrays.asList(lbjd.split("&&")), contentSelector, titleSelector, timeSelector, projectModel);
         commandLine.run(num.toString());
-        List<ArticleModel> resultList = new ArrayList<>();
+
+        /*List<ArticleModel> resultList = new ArrayList<>();
         List<Object> collect = commandLine.getMapList().stream().filter(t -> t instanceof List)
                 .filter(t -> ((List) t).size() > 0)
                 .collect(Collectors.toList());
@@ -72,7 +73,9 @@ public class SpiderService {
 
         }
 
-        if (resultList.size() > 0) articleRepository.saveAll(resultList);
+        resultList = resultList.stream().filter(this::filter).collect(Collectors.toList());
+
+        if (resultList.size() > 0) articleRepository.saveAll(resultList);*/
     }
 
     private String handleTime(String str) {
@@ -86,6 +89,52 @@ public class SpiderService {
         return str;
     }
 
+    private boolean filter(ArticleModel model) {
+        int count = articleRepository.countByColumnIdAndTitle(model.getColumnId(), model.getTitle().trim());
+        return count == 0;
+    }
 
 
+    public void runAll(Integer num) throws Exception {
+        List<ProjectModel> all = projectRepository.findAll();
+        if (all.size() == 0) return;
+
+        for (ProjectModel projectModel : all) {
+            run(projectModel.getXmmc(), num);
+        }
+    }
+
+
+    public void save(List<Object> collect, ProjectModel projectModel) {
+        List<ArticleModel> resultList = new ArrayList<>();
+        for (Object object : collect) {
+
+            if (!(object instanceof List)) continue;
+
+            List list = (List) object;
+
+            for (Object o : list) {
+
+                if (!(o instanceof Map)) continue;
+                Map map = (Map) o;
+
+                if (map.size() == 0) continue;
+                ArticleModel articleModel = new ArticleModel();
+                articleModel.setProjectName(projectModel.getXmmc());
+                articleModel.setArticleName(map.get("title").toString());
+                articleModel.setArticleCreateTime(handleTime(map.get("time").toString()));
+                articleModel.setColumnId(projectModel.getLmid());
+                articleModel.setContent(map.get("content").toString());
+                articleModel.setTitle(map.get("title").toString());
+                articleModel.setProjectId(projectModel.getId());
+                resultList.add(articleModel);
+            }
+
+
+        }
+
+        resultList = resultList.stream().filter(this::filter).collect(Collectors.toList());
+
+        if (resultList.size() > 0) articleRepository.saveAll(resultList);
+    }
 }

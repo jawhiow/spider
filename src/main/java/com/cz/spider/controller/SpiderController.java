@@ -32,5 +32,16 @@ public class SpiderController {
         }
     }
 
+    @RequestMapping(value = "/runAll", method = RequestMethod.GET)
+    public String runAll(Integer num) {
+        try {
+            spiderService.runAll(num);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
 
 }

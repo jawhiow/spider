@@ -1,5 +1,6 @@
 package com.cz.spider.crawler;
 
+import com.cz.spider.model.primary.ProjectModel;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -27,12 +28,14 @@ public class MyCommandLine implements CommandLineRunner {
     private String contentSelector;
     private String titleSelector;
     private String timeSelector;
+    private ProjectModel projectModel;
 
-    public MyCommandLine(List<String> links, String contentSelector, String titleSelector, String timeSelector) {
+    public MyCommandLine(List<String> links, String contentSelector, String titleSelector, String timeSelector, ProjectModel projectModel) {
         this.links = links;
         this.contentSelector = contentSelector;
         this.titleSelector = titleSelector;
         this.timeSelector = timeSelector;
+        this.projectModel = projectModel;
     }
 
     @Override
@@ -68,19 +71,14 @@ public class MyCommandLine implements CommandLineRunner {
 
         //启动爬虫，爬虫从此刻开始执行爬虫任务
         // controller.start(MyCrawler.class, numberOfCrawlers);
-        MyCrawlerFactory factory = new MyCrawlerFactory(contentSelector, titleSelector, timeSelector);
+        MyCrawlerFactory factory = new MyCrawlerFactory(contentSelector, titleSelector, timeSelector, projectModel);
         controller.startNonBlocking(factory, numberOfCrawlers);
 
-         Thread.sleep(10 * 1000);
-//        while (true) {
-//            int i = Thread.activeCount();
-//            System.out.println(i);
-//            if (i - cnt <= 0) break;
-//        }
+         //Thread.sleep(30 * 1000);
 
-        controller.shutdown();
-        controller.waitUntilFinish();
-        mapList = controller.getCrawlersLocalData();
+//        controller.shutdown();
+//        controller.waitUntilFinish();
+//        mapList = controller.getCrawlersLocalData();
 
     }
 }

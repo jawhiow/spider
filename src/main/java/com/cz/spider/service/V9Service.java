@@ -8,7 +8,6 @@ import com.cz.spider.repository.primary.ProjectRepository;
 import com.cz.spider.repository.secondary.V9NewsDataRepository;
 import com.cz.spider.repository.secondary.V9NewsRepository;
 import com.hankcs.hanlp.HanLP;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

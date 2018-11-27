@@ -8,6 +8,9 @@ package com.cz.spider.crawler;
  *  
  */
 
+import com.cz.spider.model.primary.ProjectModel;
+import com.cz.spider.service.SpiderService;
+import com.cz.spider.utils.SpringUtil;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -28,15 +31,17 @@ public class MyCrawler extends WebCrawler {
     private String contentSelector;
     private String titleSelector;
     private String timeSelector;
+    private ProjectModel projectModel;
 
     public List<Map<String, String>> resultList;
 //    public Map<String, String> map;
 
 
-    public MyCrawler(String contentSelector, String titleSelector, String timeSelector) {
+    public MyCrawler(String contentSelector, String titleSelector, String timeSelector, ProjectModel projectModel) {
         this.contentSelector = contentSelector;
         this.titleSelector = titleSelector;
         this.timeSelector = timeSelector;
+        this.projectModel = projectModel;
         this.resultList = new ArrayList<>();
 //        map = new HashMap<>();
     }
@@ -126,6 +131,13 @@ public class MyCrawler extends WebCrawler {
     @Override
     public Object getMyLocalData() {
         return resultList;
+    }
+
+    @Override
+    public void onBeforeExit() {
+        System.out.println("=============当前线程爬取完毕准备入库================");
+        SpiderService spiderService = SpringUtil.getBean(SpiderService.class);
+        spiderService.save(Collections.singletonList(resultList), projectModel);
     }
 }
 
